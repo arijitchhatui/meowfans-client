@@ -1,5 +1,6 @@
 'use client';
 
+import { redirectToAuthApp } from '@/util/helpers';
 import { CornerDownRight, Globe2, ShieldCheck, Sparkles, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -43,16 +44,25 @@ const LandingPageContent: React.FC<Props> = ({ highLightedId, divRefs }) => {
                 <Button
                   variant={'outline'}
                   className="shadow accent-accent-foreground bg-linear-to-r from-blue-600 to-sky-400 "
-                  onClick={() => router.push('/creator-signup')}
+                  onClick={() => router.push(redirectToAuthApp({ pathname: '/creator-signup' }))}
                 >
                   BECOME A CREATOR
                 </Button>
               </div>
               <div className="flex justify-center md:justify-start space-x-4 mt-6">
-                <Button size="lg" className="shadow-accent-foreground">
+                <Button
+                  size="lg"
+                  className="shadow-accent-foreground"
+                  onClick={() => router.push(redirectToAuthApp({ pathname: '/signup' }))}
+                >
                   🚀 Get Started
                 </Button>
-                <Button variant="outline" className="shadow-accent-foreground" size="lg">
+                <Button
+                  variant="outline"
+                  className="shadow-accent-foreground"
+                  size="lg"
+                  onClick={() => router.push(redirectToAuthApp({ pathname: '/login' }))}
+                >
                   Explore Images
                 </Button>
               </div>
@@ -121,7 +131,7 @@ const LandingPageContent: React.FC<Props> = ({ highLightedId, divRefs }) => {
         <p className="text-lg mb-6">
           Start creating with us. Upload your best work, set your price, and get paid every time someone views your image.
         </p>
-        <Button size="lg" onClick={() => router.push('/creator-signup')}>
+        <Button size="lg" onClick={() => router.push(redirectToAuthApp({ pathname: '/creator-signup' }))}>
           🎨 Become a Creator
         </Button>
       </div>

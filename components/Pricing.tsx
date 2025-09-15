@@ -1,6 +1,8 @@
 'use client';
 
+import { redirectToAuthApp } from '@/util/helpers';
 import { Crown, Wallet, Zap } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 
 interface Props {
@@ -9,6 +11,7 @@ interface Props {
 }
 
 const Pricing: React.FC<Props> = ({ highLightedId, divRefs }) => {
+  const router = useRouter();
   const plans = [
     {
       name: 'Free',
@@ -16,6 +19,7 @@ const Pricing: React.FC<Props> = ({ highLightedId, divRefs }) => {
       icon: <Wallet className="size-10 text-green-600" />,
       features: ['Browse images', 'Preview with watermark', 'Save favorites'],
       buttonText: 'Start Free',
+      path: '/login',
       buttonVariant: 'outline' as const
     },
     {
@@ -24,6 +28,7 @@ const Pricing: React.FC<Props> = ({ highLightedId, divRefs }) => {
       icon: <Zap className="size-10 text-amber-600" />,
       features: ['Unlock images instantly', 'Secure payment checkout', 'No subscriptions needed'],
       buttonText: 'Explore Images',
+      path: '/signup',
       buttonVariant: 'default' as const
     },
     {
@@ -32,6 +37,7 @@ const Pricing: React.FC<Props> = ({ highLightedId, divRefs }) => {
       icon: <Crown className="size-10 text-purple-600" />,
       features: ['Upload unlimited images', 'Set your own prices', 'Earn from every view', 'Analytics dashboard'],
       buttonText: 'Become a Creator',
+      path: '/creator-signup',
       buttonVariant: 'default' as const
     }
   ];
@@ -67,7 +73,7 @@ const Pricing: React.FC<Props> = ({ highLightedId, divRefs }) => {
               ))}
             </ul>
             <div className="mt-8 text-center">
-              <Button size="lg" variant={plan.buttonVariant}>
+              <Button size="lg" variant={plan.buttonVariant} onClick={() => router.push(redirectToAuthApp({ pathname: plan.path }))}>
                 {plan.buttonText}
               </Button>
             </div>

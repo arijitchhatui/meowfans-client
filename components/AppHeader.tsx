@@ -1,4 +1,5 @@
 import { Icons } from '@/lib/icons/Icons';
+import { redirectToAuthApp } from '@/util/helpers';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { ApplyTheme } from './ApplyTheme';
@@ -26,18 +27,18 @@ const AppHeader: React.FC<Props> = ({ contents, setHighLightedId, divRefs }) => 
           <Button
             variant={'outline'}
             className="text-white shadow accent-accent-foreground bg-linear-to-r from-blue-600 to-sky-400 "
-            onClick={() => router.push('/creator-signup')}
+            onClick={() => router.push(redirectToAuthApp({ pathname: '/creator-signup' }))}
           >
             BECOME A CREATOR
           </Button>
         </div>
         <div className="">
-          <Button variant={'outline'} onClick={() => router.push('/login')}>
+          <Button variant={'outline'} onClick={() => router.push(redirectToAuthApp({ pathname: '/login' }))}>
             LOGIN
           </Button>
         </div>
         <div className="font-bold">
-          <Button variant={'default'} onClick={() => router.push('/signup')}>
+          <Button variant={'default'} onClick={() => router.push(redirectToAuthApp({ pathname: '/signup' }))}>
             SIGNUP
           </Button>
         </div>

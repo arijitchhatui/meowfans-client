@@ -1,3 +1,4 @@
+import { redirectToAuthApp } from '@/util/helpers';
 import { Menu } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -71,8 +72,8 @@ export const LandingContentSheet: React.FC<Props> = ({ contents, setHighLightedI
           ))}
         </div>
         <SheetFooter>
-          <Button onClick={() => router.push('/creator-signup')}>Become a Creator</Button>
-          <Button variant="outline" onClick={() => router.push('/signup')}>
+          <Button onClick={() => router.push(redirectToAuthApp({ pathname: '/creator-signup' }))}>Become a Creator</Button>
+          <Button variant="outline" onClick={() => router.push(redirectToAuthApp({ pathname: '/signup' }))}>
             Become a Fan
           </Button>
         </SheetFooter>

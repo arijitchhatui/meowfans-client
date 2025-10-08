@@ -13,7 +13,6 @@ import {
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { Suspense, useRef, useState } from 'react';
-import { Vortex } from './ui/shadcn-io/vortex';
 
 export interface Contents {
   label: string;
@@ -21,10 +20,8 @@ export interface Contents {
   id: string;
 }
 
-const LandingPageContent = dynamic(() => import('@/components/Content'), { ssr: false });
-const LandingPageHeader = dynamic(() => import('@/components/AppHeader'), { ssr: false });
-const LandingPagePricing = dynamic(() => import('@/components/Pricing'), { ssr: false });
-const LandingPageFooter = dynamic(() => import('@/components/PayRights'), { ssr: false });
+const ExplorePageContent = dynamic(() => import('@/components/Content'), { ssr: false });
+const ExplorePagePricing = dynamic(() => import('@/components/Pricing'), { ssr: false });
 
 const contents: Contents[] = [
   { label: 'How It Works?', icon: NetworkIcon, id: '1' },
@@ -36,21 +33,16 @@ const contents: Contents[] = [
   { label: 'FAQ', icon: TableOfContents, id: '8' }
 ];
 
-export const LandingPage = () => {
+export const Explore = () => {
   const [highLightedId, setHighLightedId] = useState<string | null>(null);
   const divRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   return (
     <Suspense fallback={<LoaderIcon className="animate-spin" />}>
-      <div className="relative flex items-center justify-center w-full h-[calc(100vh)] overflow-hidden">
-        <div className="absolute inset-0 w-full h-full">
-          <Vortex backgroundColor={'#000'} rangeY={800} particleCount={500} baseHue={120} />
-        </div>
+      <div className="relative flex items-center justify-center w-full">
         <div className="relative z-10 w-full h-full overflow-y-auto flex flex-col items-center">
-          <LandingPageHeader contents={contents} setHighLightedId={setHighLightedId} divRefs={divRefs} />
-          <LandingPageContent highLightedId={highLightedId} divRefs={divRefs} />
-          <LandingPagePricing highLightedId={highLightedId} divRefs={divRefs} />
-          <LandingPageFooter />
+          <ExplorePageContent highLightedId={highLightedId} divRefs={divRefs} />
+          <ExplorePagePricing highLightedId={highLightedId} divRefs={divRefs} />
         </div>
       </div>
     </Suspense>

@@ -1,3 +1,5 @@
+import { authCookieKey } from '@/lib/constants';
+import { getCookie } from 'cookies-next';
 import { configService } from './config';
 
 export const isValidEmail = (email: string) => {
@@ -14,3 +16,8 @@ export const redirectToAuthApp = (input: { pathname?: string }) => {
   redirectUrl.pathname = input.pathname || '/login';
   return redirectUrl.toString();
 };
+
+export const BearerAccessToken = () => {
+  return `Bearer ${getCookie(authCookieKey)}`;
+};
+

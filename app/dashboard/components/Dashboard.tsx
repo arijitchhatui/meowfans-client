@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/app/loading';
 import { Paginate } from '@/components/Paginate';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useVaults } from '@/hooks/useVaults';
@@ -12,10 +13,11 @@ import { useState } from 'react';
 export const Dashboard = () => {
   const searchParams = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(Number(searchParams.get('p') || 1));
-  const { vaults, hasNext, hasPrev, totalPages } = useVaults({ pageNumber });
+  const { vaults, hasNext, hasPrev, totalPages, loading } = useVaults({ pageNumber });
 
+  if (loading) return <Loading />;
   return (
-    <PageWrapper className='m-1'>
+    <PageWrapper className="m-1">
       <h2 className="text-xl font-semibold m-3">Explore dashboard</h2>
       <div className="relative h-full">
         <ScrollArea className="w-full p-1">

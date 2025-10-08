@@ -9,7 +9,7 @@ interface UseAssetsProps {
 }
 
 export const useAssets = ({ pageNumber }: UseAssetsProps) => {
-  const { data } = useQuery(GET_DEFAULT_ASSETS, { variables: { input: { pageNumber } } });
+  const { data, loading } = useQuery(GET_DEFAULT_ASSETS, { variables: { input: { pageNumber } } });
   const { assets, setAssets } = useAssetsStore();
   const { count = 0, hasNext = false, hasPrev = false, totalPages = 0 } = (data?.getDefaultAssets ?? {}) as GetDefaultAssetsOutput;
   useEffect(() => {
@@ -17,5 +17,5 @@ export const useAssets = ({ pageNumber }: UseAssetsProps) => {
       setAssets(data.getDefaultAssets.assets as CreatorAssetsEntity[]);
     }
   }, [data]);
-  return { assets, hasNext, hasPrev, totalPages, count };
+  return { assets, hasNext, hasPrev, totalPages, count, loading };
 };

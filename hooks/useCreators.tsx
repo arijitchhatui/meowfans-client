@@ -9,7 +9,7 @@ interface UseCreatorsProps {
 }
 
 export const useCreators = ({ pageNumber }: UseCreatorsProps) => {
-  const { data } = useQuery(GET_DEFAULT_CREATORS_QUERY, { variables: { input: { take: 20, pageNumber } } });
+  const { data, loading } = useQuery(GET_DEFAULT_CREATORS_QUERY, { variables: { input: { take: 20, pageNumber } } });
   const { creators, setCreators } = useCreatorsStore();
   const { count = 0, hasNext = false, hasPrev = false, totalPages = 0 } = (data?.getDefaultCreators ?? {}) as GetAllCreatorsOutput;
 
@@ -19,5 +19,5 @@ export const useCreators = ({ pageNumber }: UseCreatorsProps) => {
     }
   }, [data]);
 
-  return { creators, count, hasNext, hasPrev, totalPages };
+  return { creators, count, hasNext, hasPrev, totalPages, loading };
 };

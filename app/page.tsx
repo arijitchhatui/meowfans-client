@@ -1,9 +1,6 @@
-import { LandingPage } from '@/components/Landing';
+'use client';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <main>
-      <LandingPage />
-    </main>
-  );
+  redirect('/dashboard');
 }

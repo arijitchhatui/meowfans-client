@@ -5,7 +5,6 @@ import { CornerDownRight, Globe2, ShieldCheck, Sparkles, Star } from 'lucide-rea
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from './ui/button';
-import { WarpBackground } from './ui/shadcn-io/warp-background';
 
 const whyPayViewContents = [
   { icon: <ShieldCheck className="size-8 text-green-600" />, key: 'Secure &Fair:', value: 'Only pay for what you view.' as const },
@@ -27,48 +26,46 @@ interface Props {
   highLightedId: string | null;
   divRefs: React.RefObject<Record<string, HTMLDivElement | null>>;
 }
-const LandingPageContent: React.FC<Props> = ({ highLightedId, divRefs }) => {
+const ExplorePageContent: React.FC<Props> = ({ highLightedId, divRefs }) => {
   const router = useRouter();
   return (
     <div className="flex flex-col space-y-12 p-6 md:p-12 mt-10 md:mt-0 w-full">
       <div className="flex flex-col space-y-3">
-        <WarpBackground perspective={100} beamsPerSide={4} beamSize={6} beamDuration={2.5} className="flex items-center justify-center">
-          <div className="flex flex-row justify-between items-center content-center ">
-            {/* HEADER BANNER */}
-            <div className="flex flex-col text-center md:text-left  bg-linear-to-r from-blue-600 to-sky-400 rounded-2xl">
-              <p className="font-extrabold text-7xl md:text-9xl animate-pulse text-amber-50 drop-shadow-[0_0_10px_#00f] ">START</p>
-              <p className="font-extrabold text-6xl md:text-8xl animate-pulse text-amber-100 drop-shadow-[0_0_10px_#00f]">CREATING</p>
-              <p className="font-extrabold text-7xl md:text-9xl animate-pulse text-amber-200 drop-shadow-[0_0_10px_#00f]">WITH</p>
-              <p className="font-extrabold text-7xl md:text-9xl animate-pulse text-amber-500 drop-shadow-[0_0_10px_#00f]">MEOW</p>
-              <div className="font-bold shadow-accent-foreground md:hidden">
-                <Button
-                  variant={'outline'}
-                  className="shadow accent-accent-foreground bg-linear-to-r from-blue-600 to-sky-400 "
-                  onClick={() => router.push(redirectToAuthApp({ pathname: '/creator-signup' }))}
-                >
-                  BECOME A CREATOR
-                </Button>
-              </div>
-              <div className="flex justify-center md:justify-start space-x-4 mt-6">
-                <Button
-                  size="lg"
-                  className="shadow-accent-foreground"
-                  onClick={() => router.push(redirectToAuthApp({ pathname: '/signup' }))}
-                >
-                  🚀 Get Started
-                </Button>
-                <Button
-                  variant="outline"
-                  className="shadow-accent-foreground"
-                  size="lg"
-                  onClick={() => router.push(redirectToAuthApp({ pathname: '/login' }))}
-                >
-                  Explore Images
-                </Button>
-              </div>
+        <div className="flex flex-row justify-between items-center content-center ">
+          {/* HEADER BANNER */}
+          <div className="flex flex-col text-center md:text-left  bg-linear-to-r from-blue-600 to-sky-400 rounded-2xl">
+            <p className="font-extrabold text-7xl md:text-9xl animate-pulse text-amber-50 drop-shadow-[0_0_10px_#00f] ">START</p>
+            <p className="font-extrabold text-6xl md:text-8xl animate-pulse text-amber-100 drop-shadow-[0_0_10px_#00f]">CREATING</p>
+            <p className="font-extrabold text-7xl md:text-9xl animate-pulse text-amber-200 drop-shadow-[0_0_10px_#00f]">WITH</p>
+            <p className="font-extrabold text-7xl md:text-9xl animate-pulse text-amber-500 drop-shadow-[0_0_10px_#00f]">MEOW</p>
+            <div className="font-bold shadow-accent-foreground md:hidden">
+              <Button
+                variant={'outline'}
+                className="shadow accent-accent-foreground bg-linear-to-r from-blue-600 to-sky-400 "
+                onClick={() => router.push(redirectToAuthApp({ pathname: '/creator-signup' }))}
+              >
+                BECOME A CREATOR
+              </Button>
+            </div>
+            <div className="flex justify-center md:justify-start space-x-4 mt-6">
+              <Button
+                size="lg"
+                className="shadow-accent-foreground"
+                onClick={() => router.push(redirectToAuthApp({ pathname: '/signup' }))}
+              >
+                🚀 Get Started
+              </Button>
+              <Button
+                variant="outline"
+                className="shadow-accent-foreground"
+                size="lg"
+                onClick={() => router.push(redirectToAuthApp({ pathname: '/login' }))}
+              >
+                Explore Images
+              </Button>
             </div>
           </div>
-        </WarpBackground>
+        </div>
       </div>
 
       {/* HERO SECTION */}
@@ -179,4 +176,4 @@ const LandingPageContent: React.FC<Props> = ({ highLightedId, divRefs }) => {
   );
 };
 
-export default LandingPageContent;
+export default ExplorePageContent;

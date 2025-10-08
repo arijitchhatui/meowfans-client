@@ -2,7 +2,7 @@ import { redirectToAuthApp } from '@/util/helpers';
 import { Menu } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-import { Contents } from './Landing';
+import { Contents } from './Explore';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
 interface Props {

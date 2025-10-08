@@ -1,11 +1,11 @@
-
 export const AppConfig = {
   applicationName: 'Meow',
   title: 'Meow',
-  description: 'Become a meow member',
-  keywords: ['Meow'],
-  siteUrl: "https://meowfans.app",
-  canonical: "https://meowfans.app",
+  description: 'This website contains adult-oriented content intended for individuals 18 years or older. Viewer discretion is advised.',
+  keywords: ['Meow', '18+ only', 'adult entertainment', 'NSFW platform', 'mature content'],
+  subDescription: 'An 18+ adult entertainment platform for mature audiences only. Access restricted to users of legal age.',
+  siteUrl: 'https://meowfans.app',
+  canonical: 'https://meowfans.app',
   locale: 'en_IN',
   template: '%s | Meow',
   themeColor: '#FFFFFF',

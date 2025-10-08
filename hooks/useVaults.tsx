@@ -19,36 +19,18 @@ interface VaultObjectProps extends VaultProps {
   vaultId: string;
 }
 
-// export const useVaults = ({ pageNumber, searchTerm }: VaultProps) => {
-//   const { data } = useQuery(GET_DEFAULT_VAULTS_QUERY, { variables: { input: { pageNumber, searchTerm } } });
-//   const { vaults, setVaults } = useVaultsStore();
-//   const { count = 0, hasNext = false, hasPrev = false, totalPages = 0 } = (data?.getDefaultVaults ?? {}) as GetDefaultVaultsOutput;
-
-//   useEffect(() => {
-//     if (data?.getDefaultVaults.vaults) {
-//       setVaults(data.getDefaultVaults.vaults as VaultsEntity[]);
-//     }
-//   }, [data]);
-
-//   return { count, hasNext, hasPrev, totalPages, vaults };
-// };
 export const useVaults = ({ pageNumber, searchTerm }: VaultProps) => {
-  const { data, loading, error } = useQuery(GET_DEFAULT_VAULTS_QUERY, {
-    variables: { input: { pageNumber, searchTerm } },
-    fetchPolicy: 'network-only'
-  });
+  const { data, loading } = useQuery(GET_DEFAULT_VAULTS_QUERY, { variables: { input: { pageNumber, searchTerm } } });
+  const { vaults, setVaults } = useVaultsStore();
+  const { count = 0, hasNext = false, hasPrev = false, totalPages = 0 } = (data?.getDefaultVaults ?? {}) as GetDefaultVaultsOutput;
 
-  const result = data?.getDefaultVaults as GetDefaultVaultsOutput | undefined;
+  useEffect(() => {
+    if (data?.getDefaultVaults.vaults) {
+      setVaults(data.getDefaultVaults.vaults as VaultsEntity[]);
+    }
+  }, [data]);
 
-  return {
-    vaults: (result?.vaults as VaultsEntity[]) || [],
-    count: result?.count || 0,
-    hasNext: result?.hasNext || false,
-    hasPrev: result?.hasPrev || false,
-    totalPages: result?.totalPages || 0,
-    loading,
-    error
-  };
+  return { count, hasNext, hasPrev, totalPages, vaults, loading };
 };
 
 export const useVaultObjects = ({ pageNumber, vaultId }: VaultObjectProps) => {

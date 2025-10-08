@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/app/loading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { GET_TAGS_QUERY } from '@/packages/gql/api/tagsAPI';
@@ -12,7 +13,9 @@ import toast from 'react-hot-toast';
 
 export const Categories = () => {
   const LIMIT = 300;
-  const { data, fetchMore } = useQuery(GET_TAGS_QUERY, { variables: { input: { limit: LIMIT, orderBy: SortOrder.Asc, offset: 0 } } });
+  const { data, fetchMore, loading } = useQuery(GET_TAGS_QUERY, {
+    variables: { input: { limit: LIMIT, orderBy: SortOrder.Asc, offset: 0 } }
+  });
   const [tags, setTags] = useState<TagsEntity[]>((data?.getTags ?? []) as TagsEntity[]);
 
   useEffect(() => {
@@ -43,6 +46,8 @@ export const Categories = () => {
   //     }, {})
   //   );
   // }, [tags]);
+
+  if (loading) return <Loading />;
 
   return (
     <PageWrapper className="p-2">

@@ -1,4 +1,5 @@
 'use client';
+import Loading from '@/app/loading';
 import { Paginate } from '@/components/Paginate';
 import { SAvatar } from '@/components/SAvatar';
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +14,9 @@ import { useState } from 'react';
 export const CreatorProfiles = () => {
   const searchParams = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(Number(searchParams.get('p') || 1));
-  const { creators, hasNext, hasPrev, totalPages } = useCreators({ pageNumber });
+  const { creators, hasNext, hasPrev, totalPages, loading } = useCreators({ pageNumber });
+
+  if (loading) return <Loading />;
   return (
     <PageWrapper>
       <h2 className="text-xl font-semibold m-3">Explore Creators</h2>

@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/app/loading';
 import { Paginate } from '@/components/Paginate';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useVaults } from '@/hooks/useVaults';
@@ -16,8 +17,9 @@ interface Props {
 export const SearchTerm: React.FC<Props> = ({ label }) => {
   const searchParams = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(Number(searchParams.get('p') || 1));
-  const { vaults, hasNext, hasPrev, totalPages } = useVaults({ pageNumber: pageNumber, searchTerm: label });
+  const { vaults, hasNext, hasPrev, totalPages, loading } = useVaults({ pageNumber: pageNumber, searchTerm: label });
 
+  if (loading) return <Loading />;
   return (
     <PageWrapper>
       <div className="relative h-full">

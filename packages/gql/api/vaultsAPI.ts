@@ -88,7 +88,6 @@ export const GET_DEFAULT_VAULTS_QUERY = graphql(`
         id
         keywords
         creatorProfile {
-          bio
           creatorId
           user {
             avatarUrl

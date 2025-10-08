@@ -11,7 +11,7 @@ export const AppConfig = {
   themeColor: '#FFFFFF',
   site_name: 'Meow',
   type: 'website',
-  images: '/icons/app_icon.svg',
+  images: '/icons/meowfans_avatar.png',
   manifest: '/site.webmanifest',
   icons: [
     {

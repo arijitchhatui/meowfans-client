@@ -75,7 +75,7 @@ export const VaultObjects = () => {
                   style={{
                     WebkitUserSelect: 'none',
                     userSelect: 'none',
-                    backgroundImage: `url(${vaultObject.asset?.rawUrl || '/app_icon.svg'})`,
+                    backgroundImage: `url(${vaultObject.asset?.rawUrl || '/meowfans_avatar.png'})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',

@@ -15,7 +15,7 @@ export const Vaults = () => {
   const [pageNumber, setPageNumber] = useState<number>(Number(searchParams.get('p') || 1));
   const { vaults, hasNext, hasPrev, totalPages, loading } = useVaults({ pageNumber: pageNumber });
 
-  if (loading) <Loading />;
+  if (loading) return <Loading />;
   return (
     <PageWrapper>
       <h2 className="text-xl font-semibold m-3">Explore Vaults</h2>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-200 pt-8 pb-8 md:mb-0 mb-12 border-t border-gray-700">
+    <footer className="bg-gray-900 text-gray-200 sticky justify-end py-8 md:mb-0 mb-12 border-t border-gray-700">
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center space-y-6 md:space-y-0">
         <div className="flex flex-col space-y-2 md:space-y-0">
           <p className="text-sm">© {new Date().getFullYear()} PayView. All rights reserved.</p>

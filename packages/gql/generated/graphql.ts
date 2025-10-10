@@ -197,6 +197,11 @@ export type CreatorRestrictsEntity = {
   unRestrictedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
+export enum DataFetchType {
+  InfiniteScroll = 'InfiniteScroll',
+  Pagination = 'Pagination'
+}
+
 export type DeleteCommentInput = {
   commentId: Scalars['String']['input'];
   postId: Scalars['String']['input'];
@@ -235,7 +240,8 @@ export enum DocumentQualityType {
   DefaultDefinition = 'DEFAULT_DEFINITION',
   DivDefinition = 'DIV_DEFINITION',
   HighDefinition = 'HIGH_DEFINITION',
-  LowDefinition = 'LOW_DEFINITION'
+  LowDefinition = 'LOW_DEFINITION',
+  SourceDefinition = 'SOURCE_DEFINITION'
 }
 
 export type DownloadAllCreatorObjectsAsBatchInput = {
@@ -434,11 +440,11 @@ export type GetDefaultAssetsOutput = {
 
 export type GetDefaultCreatorsOutput = {
   __typename?: 'GetDefaultCreatorsOutput';
-  count: Scalars['Int']['output'];
+  count?: Maybe<Scalars['Int']['output']>;
   creators: Array<UsersEntity>;
-  hasNext: Scalars['Boolean']['output'];
-  hasPrev: Scalars['Boolean']['output'];
-  totalPages: Scalars['Int']['output'];
+  hasNext?: Maybe<Scalars['Boolean']['output']>;
+  hasPrev?: Maybe<Scalars['Boolean']['output']>;
+  totalPages?: Maybe<Scalars['Int']['output']>;
 };
 
 export type GetDefaultVaultObjectsOutput = {
@@ -453,10 +459,10 @@ export type GetDefaultVaultObjectsOutput = {
 
 export type GetDefaultVaultsOutput = {
   __typename?: 'GetDefaultVaultsOutput';
-  count: Scalars['Int']['output'];
-  hasNext: Scalars['Boolean']['output'];
-  hasPrev: Scalars['Boolean']['output'];
-  totalPages: Scalars['Int']['output'];
+  count?: Maybe<Scalars['Int']['output']>;
+  hasNext?: Maybe<Scalars['Boolean']['output']>;
+  hasPrev?: Maybe<Scalars['Boolean']['output']>;
+  totalPages?: Maybe<Scalars['Int']['output']>;
   vaults: Array<VaultsEntity>;
 };
 
@@ -905,6 +911,7 @@ export type MutationUploadVaultArgs = {
 
 export type PaginationInput = {
   assetType?: InputMaybe<AssetType>;
+  dataFetchType?: InputMaybe<DataFetchType>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<SortOrder>;
@@ -1668,7 +1675,7 @@ export type GetDefaultCreatorsQueryVariables = Exact<{
 }>;
 
 
-export type GetDefaultCreatorsQuery = { __typename?: 'Query', getDefaultCreators: { __typename?: 'GetDefaultCreatorsOutput', count: number, totalPages: number, hasNext: boolean, hasPrev: boolean, creators: Array<{ __typename?: 'UsersEntity', avatarUrl?: string | null, bannerUrl?: string | null, createdAt: any, deletedAt?: any | null, firstName: string, id: string, lastLoginAt?: any | null, lastName: string, roles: Array<UserRoles>, updatedAt: any, username: string }> } };
+export type GetDefaultCreatorsQuery = { __typename?: 'Query', getDefaultCreators: { __typename?: 'GetDefaultCreatorsOutput', count?: number | null, totalPages?: number | null, hasNext?: boolean | null, hasPrev?: boolean | null, creators: Array<{ __typename?: 'UsersEntity', avatarUrl?: string | null, bannerUrl?: string | null, createdAt: any, deletedAt?: any | null, firstName: string, id: string, lastLoginAt?: any | null, lastName: string, roles: Array<UserRoles>, updatedAt: any, username: string }> } };
 
 export type DownloadCreatorObjectsAsBatchMutationVariables = Exact<{
   input: UploadVaultQueueInput;
@@ -1713,7 +1720,7 @@ export type GetDefaultVaultsQueryVariables = Exact<{
 }>;
 
 
-export type GetDefaultVaultsQuery = { __typename?: 'Query', getDefaultVaults: { __typename?: 'GetDefaultVaultsOutput', count: number, hasNext: boolean, hasPrev: boolean, totalPages: number, vaults: Array<{ __typename?: 'VaultsEntity', creatorId: string, description?: string | null, id: string, keywords?: Array<string> | null, createdAt: any, preview: string, creatorProfile: { __typename?: 'CreatorProfilesEntity', creatorId: string, user: { __typename?: 'UsersEntity', avatarUrl?: string | null, bannerUrl?: string | null, id: string, username: string } } }> } };
+export type GetDefaultVaultsQuery = { __typename?: 'Query', getDefaultVaults: { __typename?: 'GetDefaultVaultsOutput', count?: number | null, hasNext?: boolean | null, hasPrev?: boolean | null, totalPages?: number | null, vaults: Array<{ __typename?: 'VaultsEntity', creatorId: string, description?: string | null, id: string, keywords?: Array<string> | null, createdAt: any, preview: string, creatorProfile: { __typename?: 'CreatorProfilesEntity', creatorId: string, user: { __typename?: 'UsersEntity', avatarUrl?: string | null, bannerUrl?: string | null, id: string, username: string } } }> } };
 
 
 export const GetCreatorAssetsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCreatorAssets"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCreatorAssets"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assetId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"asset"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blurredUrl"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"creatorId"}},{"kind":"Field","name":{"kind":"Name","value":"fileType"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mediaType"}},{"kind":"Field","name":{"kind":"Name","value":"mimeType"}},{"kind":"Field","name":{"kind":"Name","value":"rawUrl"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]}}]} as unknown as DocumentNode<GetCreatorAssetsQuery, GetCreatorAssetsQueryVariables>;

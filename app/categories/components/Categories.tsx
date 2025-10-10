@@ -1,77 +1,64 @@
 'use client';
 
-import Loading from '@/app/loading';
+import { InfiniteScrollWrapper } from '@/components/InfiniteScrollWrapper';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { GET_TAGS_QUERY } from '@/packages/gql/api/tagsAPI';
-import { SortOrder, TagsEntity } from '@/packages/gql/generated/graphql';
+import { useTags } from '@/hooks/useTags';
+import { TagsEntity } from '@/packages/gql/generated/graphql';
 import { PageWrapper } from '@/wrappers/PageWrapper';
-import { useQuery } from '@apollo/client/react';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { ArrowBigUp } from 'lucide-react';
+import { useMemo, useRef } from 'react';
 
 export const Categories = () => {
-  const LIMIT = 300;
-  const { data, fetchMore, loading } = useQuery(GET_TAGS_QUERY, {
-    variables: { input: { limit: LIMIT, orderBy: SortOrder.Asc, offset: 0 } }
-  });
-  const [tags, setTags] = useState<TagsEntity[]>((data?.getTags ?? []) as TagsEntity[]);
+  const { handleLoadMore, hasMore, loading, tags } = useTags();
+  const topRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (data?.getTags) {
-      setTags(data.getTags);
-    }
-  }, [data]);
-
-  const handleLoadMore = async () => {
-    try {
-      const { data: newData } = await fetchMore({
-        query: GET_TAGS_QUERY,
-        variables: { input: { limit: LIMIT, offset: data?.getTags.length, orderBy: SortOrder.Asc } }
-      });
-      setTags((prev) => [...prev, ...(newData?.getTags ?? [])]);
-    } catch (error) {
-      toast.error('Something wrong happened!');
-    }
-  };
-
-  // const memoizedTags = useMemo(() => {
-  //   return Object.entries(
-  //     tags.reduce<Record<string, TagsEntity[]>>((acc, tag) => {
-  //       const alphabetKey = tag.label[0].toUpperCase();
-  //       acc[alphabetKey] ??= [];
-  //       acc[alphabetKey].push(tag);
-  //       return acc;
-  //     }, {})
-  //   );
-  // }, [tags]);
-
-  if (loading) return <Loading />;
+  const groupedTags = useMemo(() => {
+    const groups: Record<string, TagsEntity[]> = {};
+    tags.forEach((tag) => {
+      const firstLetter = tag.label[0].toUpperCase() ?? '#';
+      const alphaKey = /^[A-Z]$/.test(firstLetter) ? firstLetter : '#';
+      groups[alphaKey] ??= [];
+      groups[alphaKey].push(tag);
+    });
+    return Object.entries(groups).sort(([a], [b]) => a.localeCompare(b));
+  }, [tags]);
 
   return (
     <PageWrapper className="p-2">
-      <div className="flex flex-1 overflow-y-scroll h-screen" id="scroll-id">
-        <div className="container mx-auto px-4 py-8">
+      <InfiniteScrollWrapper dataLength={tags.length} onLoadMore={handleLoadMore} hasMore={hasMore} loading={loading}>
+        <div ref={topRef} />
+        <div className="container relative mx-auto px-4 py-8">
           <h1 className="text-2xl font-bold mb-6">Categories</h1>
-          <div className="mb-8">
-            {/* {memoizedTags.map(([alphabetKey, tags]) => (
-              <h2 className="text-xl font-semibold mb-4">{alphabetKey}</h2> */}
-            <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-              {tags.map((tag) => (
-                <Link key={tag.id} href={`/categories/${encodeURIComponent(tag.label)}`}>
-                  <Badge variant="secondary" className="">
+          {groupedTags.map(([alphabetKey, tags]) => (
+            <div key={alphabetKey} className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">{alphabetKey}</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-8">
+                {tags.map((tag) => (
+                  <Badge
+                    key={tag.id}
+                    variant="secondary"
+                    className="flex justify-center py-2 text-sm cursor-pointer hover:bg-secondary/80 transition"
+                  >
                     {tag.label}
                   </Badge>
-                </Link>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-          {/* ))} */}
-          <div className="flex justify-center content-center">
-            <Button onClick={handleLoadMore}>Next</Button>
-          </div>
+          ))}
         </div>
+      </InfiniteScrollWrapper>
+      <div className="fixed bottom-20 right-5 rounded-2xl">
+        <Button
+          className="rounded-2xl"
+          onClick={() => {
+            requestAnimationFrame(() => {
+              topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+          }}
+        >
+          <ArrowBigUp />
+        </Button>
       </div>
     </PageWrapper>
   );

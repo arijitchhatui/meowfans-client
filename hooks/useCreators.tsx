@@ -1,23 +1,50 @@
 import { GET_DEFAULT_CREATORS_QUERY } from '@/packages/gql/api/userAPI';
-import { ExtendedUsersEntity, GetAllCreatorsOutput } from '@/packages/gql/generated/graphql';
+import { DataFetchType, ExtendedUsersEntity } from '@/packages/gql/generated/graphql';
 import { useCreatorsStore } from '@/zustand/users.store';
-import { useQuery } from '@apollo/client/react';
-import { useEffect } from 'react';
+import { CombinedGraphQLErrors } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client/react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-interface UseCreatorsProps {
-  pageNumber: number;
-}
-
-export const useCreators = ({ pageNumber }: UseCreatorsProps) => {
-  const { data, loading } = useQuery(GET_DEFAULT_CREATORS_QUERY, { variables: { input: { take: 20, pageNumber } } });
+export const useCreators = () => {
+  const [getDefaultCreatorsQuery] = useLazyQuery(GET_DEFAULT_CREATORS_QUERY);
   const { creators, setCreators } = useCreatorsStore();
-  const { count = 0, hasNext = false, hasPrev = false, totalPages = 0 } = (data?.getDefaultCreators ?? {}) as GetAllCreatorsOutput;
+  const [hasMore, setHasMore] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const handleLoadMoreCreators = async (initialLoad = false) => {
+    const offset = initialLoad ? 0 : creators.length;
+    try {
+      const { data } = await getDefaultCreatorsQuery({
+        variables: { input: { take: 30, skip: offset, dataFetchType: DataFetchType.InfiniteScroll } }
+      });
+      const fetchedCreators = data?.getDefaultCreators.creators ?? [];
+      setHasMore(fetchedCreators.length === 30);
+
+      if (initialLoad) setCreators(fetchedCreators as ExtendedUsersEntity[]);
+      else setCreators([...creators, ...fetchedCreators] as ExtendedUsersEntity[]);
+      setLoading(false);
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        return;
+      } else if (error instanceof CombinedGraphQLErrors) {
+        console.log('GraphQL errors:', error.errors);
+      } else {
+        console.error('Other error:', error);
+      }
+      toast.error('Something wrong happened!!');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLoadMore = () => {
+    if (!loading && hasMore) handleLoadMoreCreators();
+  };
 
   useEffect(() => {
-    if (data?.getDefaultCreators.creators) {
-      setCreators(data?.getDefaultCreators.creators as ExtendedUsersEntity[]);
-    }
-  }, [data]);
+    handleLoadMoreCreators(true);
+  }, []);
 
-  return { creators, count, hasNext, hasPrev, totalPages, loading };
+  return { creators, loading, hasMore, handleLoadMore };
 };

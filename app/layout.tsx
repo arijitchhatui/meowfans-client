@@ -2,7 +2,6 @@ import { AgeConfirmation } from '@/app/(legal)/components/AgeConfirmation';
 import { CookieBanner } from '@/app/(legal)/components/CookieBanner';
 import { AppBottomNav } from '@/components/AppBottomNav';
 import { AppSidebar } from '@/components/AppSideBar';
-import Footer from '@/components/PayRights';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { AppConfig } from '@/lib/app.config';
 import { cn } from '@/lib/utils';
@@ -107,7 +106,7 @@ export default function RootLayout({
                 <SidebarInset>
                   <main className="w-full">
                     {children}
-                    <Footer />
+                    {/* <Footer /> */}
                   </main>
                 </SidebarInset>
               </SidebarProvider>
